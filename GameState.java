@@ -1,25 +1,25 @@
 import java.util.*;
 
 public class GameState {
-   
+    // Time management
     private int currentHour = 12;
     private int currentMinute = 0;
     private boolean isPM = true;
     private Timer timeTimer;
     private final int TIME_INTERVAL = 20000; // 10 seconds per time increment
 
-    
+    // Money management
     private double totalMoney = 40.00;
     private double dailyEarnings = 0.0;
     private int currentDay = 1;
     private boolean dayOver = false;
 
-    
+    // Customer management
     private int maxCustomers = 5;
     private Queue<Customer> customerQueue = new LinkedList<>();
     private Customer currentCustomer = null;
     private Timer patienceTimer;
-    private final int PATIENCE_INTERVAL = 2000; 
+    private final int PATIENCE_INTERVAL = 2000; // 1 second for patience decrease
     private DayManager dayManager;
 
     public GameState(DayManager dayManager) {
@@ -53,8 +53,8 @@ public class GameState {
     }
 
     private void initializeCustomers() {
-       
-        customerQueue.clear(); 
+        // Initialize customers based on DayManager rules
+        customerQueue.clear(); // Clear any existing customers
         int num = 5;
         int minItems = 1;
         int maxItems = 1;
@@ -67,8 +67,9 @@ public class GameState {
             customerQueue.offer(new Customer(minItems, maxItems));
         }
 
+        // Make sure we have a current customer
         if (currentCustomer == null) {
-            currentCustomer = customerQueue.poll();
+            currentCustomer = customerQueue.poll(); // Timer will start when "Okay" is clicked
         }
     }
 
@@ -87,15 +88,16 @@ public class GameState {
 
     public Customer getCurrentCustomer() {
         if (currentCustomer == null && !customerQueue.isEmpty()) {
-            currentCustomer = customerQueue.poll();
+            currentCustomer = customerQueue.poll(); // Don't start timer until "Okay" is clicked
         }
         return currentCustomer;
     }
 
+    // Call this method when "Okay" is clicked
     public void startCurrentCustomerTimer() {
         if (currentCustomer != null) {
             if (patienceTimer != null) {
-                patienceTimer.cancel(); 
+                patienceTimer.cancel(); // Cancel any existing timer
             }
             patienceTimer = new Timer();
             patienceTimer.scheduleAtFixedRate(new TimerTask() {
@@ -141,6 +143,7 @@ public class GameState {
         }
     }
 
+    // Simple day helpers used by GamePanel
     public int getCurrentDay() { return currentDay; }
     public double getDailyEarnings() { return dailyEarnings; }
     public boolean isDayOver() { return dayOver; }
@@ -149,6 +152,7 @@ public class GameState {
         currentDay++;
         dailyEarnings = 0.0;
         dayOver = false;
+        // reinitialize customers
         currentCustomer = null;
         initializeCustomers();
     }

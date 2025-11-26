@@ -10,7 +10,7 @@ public class GameManager {
         window = new JFrame("Kitchen Master"); 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         window.setResizable(false); 
-       
+        // create shared DayManager for the entire app
         dayManager = new DayManager();
         showMenu(); 
         window.setLocationRelativeTo(null); 

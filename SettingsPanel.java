@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*; 
 
 public class SettingsPanel extends JPanel { 
-   
+    // ✅ must extend JPanel 
     private GameManager gm; 
     private JSlider volumeSlider; 
     private JButton howToPlayBtn; 
@@ -12,14 +12,16 @@ public class SettingsPanel extends JPanel {
 
     public SettingsPanel(GameManager gm) { 
         this.gm = gm; 
-        setLayout(null); 
+        setLayout(null); // Absolute layout for precise placement 
         setBackground(new Color(240, 230, 210)); 
- 
+
+        // Title 
         titleLabel = new JLabel("⚙️ Settings", SwingConstants.CENTER); 
         titleLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 36)); 
         titleLabel.setBounds(0, 50, 1280, 60); 
         add(titleLabel); 
 
+        // Volume Slider 
         JLabel volumeLabel = new JLabel("🎵 Volume:"); 
         volumeLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24)); 
         volumeLabel.setBounds(450, 180, 200, 40); 
@@ -32,6 +34,7 @@ public class SettingsPanel extends JPanel {
         volumeSlider.setPaintLabels(true); 
         add(volumeSlider); 
 
+        // Buttons 
         howToPlayBtn = createButton("📘 How to Play", 540, 270); 
         aboutBtn = createButton("👨‍🍳 About Us", 540, 350); 
         backBtn = createButton("⬅️ Back to Menu", 540, 430); 
@@ -39,6 +42,7 @@ public class SettingsPanel extends JPanel {
         add(aboutBtn); 
         add(backBtn); 
 
+        // Action Listeners 
         howToPlayBtn.addActionListener(e -> showHowToPlay()); 
         aboutBtn.addActionListener(e -> showAboutUs()); 
         backBtn.addActionListener(e -> gm.showMenu()); 
@@ -85,6 +89,7 @@ public class SettingsPanel extends JPanel {
     @Override 
     protected void paintComponent(Graphics g) { 
         super.paintComponent(g); 
+        // Optional background or styling 
         Graphics2D g2 = (Graphics2D) g; 
         g2.setColor(new Color(255, 240, 200)); 
         g2.fillRoundRect(400, 140, 480, 400, 30, 30); 

@@ -35,6 +35,7 @@ public class MenuPanel extends JPanel {
         }); 
     } 
 
+    // ✅ Popup Settings Window 
     private void showSettingsPopup() { 
         JDialog settingsDialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "⚙️ Settings", true); 
         settingsDialog.setSize(400, 400); 
@@ -42,6 +43,7 @@ public class MenuPanel extends JPanel {
         settingsDialog.setResizable(false); 
         settingsDialog.setLocationRelativeTo(this); 
 
+        // Volume Label + Slider 
         JLabel volumeLabel = new JLabel("Volume:"); 
         volumeLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 18)); 
         volumeLabel.setBounds(50, 40, 150, 40); 
@@ -54,22 +56,26 @@ public class MenuPanel extends JPanel {
         volumeSlider.setPaintLabels(true); 
         settingsDialog.add(volumeSlider); 
 
+        // How to Play button 
         JButton howToPlayBtn = new JButton("How to Play"); 
         howToPlayBtn.setBounds(100, 120, 200, 40); 
         howToPlayBtn.setFont(new Font("Trebuchet MS", Font.BOLD, 16)); 
         settingsDialog.add(howToPlayBtn); 
 
+        // About button 
         JButton aboutBtn = new JButton("About Us"); 
         aboutBtn.setBounds(100, 180, 200, 40); 
         aboutBtn.setFont(new Font("Trebuchet MS", Font.BOLD, 16)); 
         settingsDialog.add(aboutBtn); 
 
+        // Exit/Close button 
         JButton exitBtn = new JButton("Close"); 
         exitBtn.setBounds(100, 260, 200, 40); 
         exitBtn.setFont(new Font("Trebuchet MS", Font.BOLD, 16)); 
         exitBtn.setBackground(new Color(255, 200, 150)); 
         settingsDialog.add(exitBtn); 
 
+        // Action listeners 
         howToPlayBtn.addActionListener(e -> JOptionPane.showMessageDialog( 
             settingsDialog, 
             """ 
@@ -96,8 +102,10 @@ public class MenuPanel extends JPanel {
 
         exitBtn.addActionListener(e -> settingsDialog.dispose()); 
 
+        // Optional background color 
         settingsDialog.getContentPane().setBackground(new Color(255, 240, 210)); 
 
+        // Show popup 
         settingsDialog.setVisible(true); 
     } 
 
@@ -108,10 +116,12 @@ public class MenuPanel extends JPanel {
         int panelWidth = getWidth(); 
         int panelHeight = getHeight(); 
 
+        // Background 
         if (menuBackground != null) { 
             g2.drawImage(menuBackground, 0, 0, panelWidth, panelHeight, null); 
         } 
 
+        // Play button (always set bounds so clicks work even if image missing)
         int playBtnWidth = 215;
         int playBtnHeight = 130;
         int playBtnX = (panelWidth - playBtnWidth) / 2 - 30;
@@ -119,6 +129,7 @@ public class MenuPanel extends JPanel {
         if (playButtonImage != null) {
             g2.drawImage(playButtonImage, playBtnX, playBtnY, playBtnWidth, playBtnHeight, null);
         } else {
+            // fallback visual
             g2.setColor(new Color(200, 80, 60));
             g2.fillRoundRect(playBtnX, playBtnY, playBtnWidth, playBtnHeight, 20, 20);
             g2.setColor(Color.WHITE);
@@ -131,6 +142,7 @@ public class MenuPanel extends JPanel {
         }
         playButtonBounds = new Rectangle(playBtnX, playBtnY, playBtnWidth, playBtnHeight);
 
+        // Settings button (top right) - always set bounds
         int settingsSize = 135;
         int settingsX = panelWidth - settingsSize - 30;
         int settingsY = 30 + 5;

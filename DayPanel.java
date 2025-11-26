@@ -20,34 +20,39 @@ public class DayPanel extends JPanel {
         setPreferredSize(new Dimension(1280, 720)); 
         setFocusable(true); 
 
+        // Load background 
         try { 
             shopBackground = new ImageIcon(getClass().getResource("images/shop.jpg")).getImage(); 
         } catch (Exception e) { 
             System.out.println("⚠️ shop.png not found!"); 
         } 
 
+        // ✅ Define circular button position (lower-right corner) 
         int diameter = 150; 
-        int marginX = 60; 
-        int marginY = 50; 
+        int marginX = 60; // distance from right edge 
+        int marginY = 50; // distance from bottom 
         float x = 1280 - diameter - marginX; 
         float y = 720 - diameter - marginY; 
         dayButton = new Ellipse2D.Float(x, y, diameter, diameter); 
 
+        // ✅ Keep back button at top-left 
         backButton = new Rectangle(40, 40, 150, 60); 
 
+        // Mouse listener 
         addMouseListener(new MouseAdapter() { 
             @Override 
             public void mouseClicked(MouseEvent e) { 
                 Point p = e.getPoint(); 
                 if (dayButton.contains(p)) { 
                     System.out.println("✅ Day " + currentDay + " started!"); 
-                    gm.startGame(); 
+                    gm.startGame(); // Switch to GamePanel 
                 } else if (backButton.contains(p)) { 
-                    gm.showMenu(); 
+                    gm.showMenu(); // Go back to menu 
                 } 
             } 
         }); 
 
+        // Enable hover detection 
         addMouseMotionListener(new MouseAdapter() { 
             @Override 
             public void mouseMoved(MouseEvent e) { 
@@ -77,12 +82,14 @@ public class DayPanel extends JPanel {
             g2.fillRect(0, 0, getWidth(), getHeight()); 
         } 
 
+        // 🟠 Draw circular "Day" button 
         g2.setColor(hoverDay ? new Color(255, 180, 100) : new Color(255, 200, 120)); 
         g2.fill(dayButton); 
         g2.setColor(Color.DARK_GRAY); 
         g2.setStroke(new BasicStroke(4)); 
         g2.draw(dayButton); 
 
+        // Text inside the circle 
         g2.setFont(new Font("Trebuchet MS", Font.BOLD, 22)); 
         g2.setColor(Color.BLACK); 
         String text = "Day " + dayManager.getCurrentDay();
@@ -91,6 +98,7 @@ public class DayPanel extends JPanel {
         int textY = (int) (dayButton.y + (dayButton.height + fm.getAscent()) / 2 - 4); 
         g2.drawString(text, textX, textY); 
 
+        // ⬅️ Draw back button 
         g2.setColor(hoverBack ? new Color(255, 180, 180) : new Color(255, 150, 150)); 
         g2.fillRoundRect(backButton.x, backButton.y, backButton.width, backButton.height, 20, 20); 
         g2.setColor(Color.DARK_GRAY); 
